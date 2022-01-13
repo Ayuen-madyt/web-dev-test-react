@@ -3,11 +3,37 @@ import "./Trips.css"
 import { useSelector } from 'react-redux'
 
 function Trips() {
+    const drivers = useSelector(state=>state.Drivers);
+    const hotels = useSelector(state=>state.Hotels);
     const alltrips = useSelector(state=>state.Trips);
-    console.log(alltrips)
+    console.log(drivers)
 
     const[input, setInput] = useState('');
     const[searchResults, setSearchResults] = useState([]);
+
+
+    // matching driver id with correct name
+    alltrips.forEach((trip, i)=>{
+        drivers.forEach(driver=>{
+            if(driver.id==trip.driver){
+                trip.driver = `${driver.first_name} ${driver.last_name}`;
+                console.log(trip)
+            }
+        })
+    })
+
+    // matching hotel id with correct hotel name
+    alltrips.forEach((trip, i)=>{
+        hotels.forEach(hotel=>{
+            if(hotel.id==trip.hotel){
+                trip.hotel = hotel.name;
+                console.log(trip)
+            }
+        })
+    })
+
+
+
 
     // implementing filter functionality
     const searchHandler = (e)=>{
@@ -42,8 +68,8 @@ function Trips() {
                 <thead>
                     <tr>
                     {/* <th scope="col">#</th> */}
-                    <th scope="col">Driver ID</th>
-                    <th scope="col">Hotel ID</th>
+                    <th scope="col">Driver</th>
+                    <th scope="col">Hotel</th>
                     <th scope="col">Start time</th>
                     <th scope="col">Delivery time</th>
                     <th scope="col">Rating</th>
