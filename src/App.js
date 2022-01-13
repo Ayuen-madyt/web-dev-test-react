@@ -1,24 +1,41 @@
-import logo from './logo.svg';
+import React, { useEffect } from 'react';
 import './App.css';
+import Header from './components/Header';
+import Trips from './components/Trips';
+import Hotels from './components/Hotels';
+import Drivers from './components/Drivers';
+import { useDispatch } from 'react-redux'
+import { fetchData, fetchDrivers, fetchHotels } from './redux/actions'
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link
+} from "react-router-dom";
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(()=>{
+    dispatch(fetchData());
+    dispatch(fetchDrivers());
+    dispatch(fetchHotels());
+  },[])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+     <Router>
+      <div className="App">
+        <Header />
+        {/* <Trips /> */}
+        <Routes>
+          <Route exact path="/" element={<Trips />}/>
+          <Route exact path="/drivers" element={<Drivers />}/>
+          <Route exact path="/hotels" element={<Hotels />}/>
+          {/* <Route path="/trips">
+            <Trips />
+          </Route> */}
+
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
